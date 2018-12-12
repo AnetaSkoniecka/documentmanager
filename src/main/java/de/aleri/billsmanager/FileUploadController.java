@@ -1,6 +1,7 @@
 package de.aleri.billsmanager;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -13,11 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -34,27 +32,40 @@ public class FileUploadController {
     }
 
     @GetMapping("/")
-    public String listUploadedFiles(Model model) throws IOException {
+    public String documentsList(Model model) throws IOException {
 
-        model.addAttribute("files2", documentRepository.findAll().stream().map(
-                document -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-                        "serveFile", document.getId().toString()).build().toString())
-                .collect(Collectors.toList()));
+        List<DocumentData> documents = documentRepository.findAll().stream().map(
+            documentModel -> DocumentData.builder()
+                .id(documentModel.getId())
+                .fileName(documentModel.getFileName())
+                .downloadLink(MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
+                        "downloadDocument", documentModel.getId().toString()).build().toString())
+                .entranceDate(documentModel.getEntranceDate())
+                .entrancePerson(documentModel.getEntrancePerson())
+                .approvalDate(documentModel.getApprovalDate())
+                .approvalPerson1(documentModel.getApprovalPerson1())
+                .approvalPerson2(documentModel.getApprovalPerson2())
+                .shippmentDate(documentModel.getShippmentDate())
+                .comment(documentModel.getComment())
+                .build()
+        ).collect(Collectors.toList());
+
+        model.addAttribute("documents", documents);
 
         return "uploadForm";
     }
 
     @GetMapping("/files/{id:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> serveFile(@PathVariable Long id) {
+    public ResponseEntity<Resource> downloadDocument(@PathVariable Long id) {
 
-        Optional<Document> documentOptional = documentRepository.findById(id);
+        Optional<DocumentModel> documentOptional = documentRepository.findById(id);
         if (documentOptional.isPresent()) {
-            Document document = documentOptional.get();
+            DocumentModel documentModel = documentOptional.get();
             return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(document.getFileType()))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + document.getFileName() + "\"")
-                    .body(new ByteArrayResource(document.getFileData()));
+                    .contentType(MediaType.parseMediaType(documentModel.getFileType()))
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + documentModel.getFileName() + "\"")
+                    .body(new ByteArrayResource(documentModel.getFileData()));
         } else {
             return ResponseEntity.ok(null);
         }
@@ -65,11 +76,32 @@ public class FileUploadController {
             RedirectAttributes redirectAttributes) throws Exception {
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        Document document = new Document(fileName, file.getContentType(), file.getBytes());
-        documentRepository.save(document);
+        DocumentModel documentModel = new DocumentModel(fileName, file.getContentType(), file.getBytes());
+        documentRepository.save(documentModel);
 
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
+
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String saveStudent(@ModelAttribute DocumentData documentData, BindingResult errors, Model model) {
+
+        Optional<DocumentModel> documentModel_ = documentRepository.findById(documentData.getId());
+        if (documentModel_.isPresent()) {
+            DocumentModel documentModel = documentModel_.get();
+
+            documentModel.setEntranceDate(documentData.getEntranceDate());
+            documentModel.setEntrancePerson(documentData.getEntrancePerson());
+            documentModel.setApprovalDate(documentData.getApprovalDate());
+            documentModel.setApprovalPerson1(documentData.getApprovalPerson1());
+            documentModel.setApprovalPerson2(documentData.getApprovalPerson2());
+            documentModel.setShippmentDate(documentData.getShippmentDate());
+            documentModel.setComment(documentData.getComment());
+
+            documentRepository.save(documentModel);
+        }
 
         return "redirect:/";
     }
