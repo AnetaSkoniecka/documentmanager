@@ -1,0 +1,17 @@
+h1 {
+    color: red;
+}
+
+td {
+    vertical-align: top;
+}
+
+.upload-button {
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+}

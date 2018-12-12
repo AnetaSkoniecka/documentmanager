@@ -4,47 +4,130 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <!-- include css in the header -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/materializecss/0.100.2/css/materialize.min.css}"/>
-    <!--<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
     <!--<link rel='stylesheet' href='/webjars/bootstrap/3.1.0/css/bootstrap.min.css'>-->
 
 </head>
 <body>
 
-<div th:if="${message}">
-    <h2 th:text="${message}"/>
-</div>
-
-<div>
-    <form method="POST" enctype="multipart/form-data" action="/">
-        <table>
-            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-        </table>
-    </form>
-</div>
-
-<div>
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large blue">
+        <i class="large material-icons">add</i>
+    </a>
     <ul>
-        <li th:each="document : ${documents}">
-            <a th:href="${document.downloadLink}" th:text="${document.fileName}" />
-            <form method="POST" th:object="${document}" action="/update">
-                <input type="hidden" id="id" name="id" th:value="*{id}"/>
-
-                <input type="text" id="entranceDate" name="entranceDate" th:value="*{entranceDate}" />
-                <input type="text" id="entrancePerson" name="entrancePerson" th:value="*{entrancePerson}" />
-                <input type="text" id="approvalDate" name="approvalDate" th:value="*{approvalDate}" />
-                <input type="text" id="approvalPerson1" name="approvalPerson1" th:value="*{approvalPerson1}" />
-                <input type="text" id="approvalPerson2" name="approvalPerson2" th:value="*{approvalPerson2}" />
-                <input type="text" id="shippmentDate" name="shippmentDate" th:value="*{shippmentDate}" />
-                <input type="text" id="comment" name="comment" th:value="*{comment}" />
-
-                <input type="submit" value="Save" />
-            </form>
+        <li><a class="btn-floating green"><i class="material-icons">camera</i></a></li>
+        <li>
+            <a class="btn-floating orange">
+                <i class="material-icons">attach_file</i>
+                <form method="POST" enctype="multipart/form-data" action="/">
+                    <input class="upload-button" type="file" name="file" />
+                    <input style="display:none" type="submit" value="Upload" />
+                </form>
+            </a>
         </li>
     </ul>
 </div>
 
+<nav class="white" role="navigation">
+    <div class="nav-wrapper container">
+        <a style="max-width: 100px" id="logo-container" href="#" class="brand-logo">
+            <img class="responsive-img" th:src="@{/img/alerilogo.jpg}"/>
+        </a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="/">Documents</a></li>
+        </ul>
+
+        <ul id="nav-mobile" class="sidenav">
+            <li><a href="/">Documents</a></li>
+        </ul>
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">Menu</i></a>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="section">
+
+        <div class="row">
+            <div class="col s12 center">
+                <div th:if="${message}">
+                    <h2 th:text="${message}"/>
+                </div>
+                <div>
+                    <form method="POST" enctype="multipart/form-data" action="/">
+                        <table>
+                            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+                            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" >
+            <div class="col s12 center">
+                <div>
+                    <ul>
+                        <li th:each="document : ${documents}">
+                            <a th:href="${document.downloadLink}" th:text="${document.fileName}" />
+                            <form method="POST" th:object="${document}" action="/update">
+                                <input type="hidden" id="id" name="id" th:value="*{id}"/>
+
+                                <input type="text" id="entranceDate" name="entranceDate" th:value="*{entranceDate}" />
+                                <input type="text" id="entrancePerson" name="entrancePerson" th:value="*{entrancePerson}" />
+                                <input type="text" id="approvalDate" name="approvalDate" th:value="*{approvalDate}" />
+                                <input type="text" id="approvalPerson1" name="approvalPerson1" th:value="*{approvalPerson1}" />
+                                <input type="text" id="approvalPerson2" name="approvalPerson2" th:value="*{approvalPerson2}" />
+                                <input type="text" id="shippmentDate" name="shippmentDate" th:value="*{shippmentDate}" />
+                                <input type="text" id="comment" name="comment" th:value="*{comment}" />
+
+                                <input type="submit" value="Save" />
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <table class="responsive-table highlight striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>File name</th>
+                            <th>Eingegangen</th>
+                            <th>Freigegeben</th>
+                            <th>Schicken</th>
+                            <th>Actions</th>
+                            <th>Kommentar</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>file1</td>
+                            <td>
+                                <p>a</p>
+                                <p>b</p>
+                            </td>
+                            <td>
+                                <p>a</p>
+                                <p>b</p>
+                                <p>b</p>
+                            </td>
+                            <td>1</td>
+                            <td>actions</td>
+                            <td>comment</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/materializecss/0.100.2/js/materialize.min.js}"></script>
 </body>
 </html>
