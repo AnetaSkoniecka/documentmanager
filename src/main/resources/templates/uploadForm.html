@@ -1,4 +1,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!-- include css in the header -->
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/materializecss/0.100.2/css/materialize.min.css}"/>
+    <!--<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>-->
+    <!--<link rel='stylesheet' href='/webjars/bootstrap/3.1.0/css/bootstrap.min.css'>-->
+
+</head>
 <body>
 
 <div th:if="${message}">
