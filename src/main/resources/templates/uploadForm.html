@@ -19,13 +19,12 @@
     <ul>
         <li><a class="btn-floating green"><i class="material-icons">camera</i></a></li>
         <li>
-            <a class="btn-floating orange">
-                <i class="material-icons">attach_file</i>
-                <form method="POST" enctype="multipart/form-data" action="/">
-                    <input class="upload-button" type="file" name="file" />
-                    <input style="display:none" type="submit" value="Upload" />
-                </form>
-            </a>
+            <form id="fileUploadForm" method="POST" enctype="multipart/form-data" action="/">
+                <label for="fileUploadInput" class="btn-floating orange">
+                    <i class="material-icons">attach_file</i>
+                </label>
+                <input class="upload-button" type="file" name="file" id="fileUploadInput" onchange="form.submit()" />
+            </form>
         </li>
     </ul>
 </div>
