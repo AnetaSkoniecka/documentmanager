@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/materializecss/0.100.2/css/materialize.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/materializecss/1.0.0/css/materialize.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
     <!--<link rel='stylesheet' href='/webjars/bootstrap/3.1.0/css/bootstrap.min.css'>-->
 
@@ -44,22 +44,6 @@
 
 <div class="container">
     <div class="section">
-
-        <div class="row">
-            <div class="col s12 center">
-                <div th:if="${message}">
-                    <h2 th:text="${message}"/>
-                </div>
-                <div>
-                    <form method="POST" enctype="multipart/form-data" action="/">
-                        <table>
-                            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-                            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-                        </table>
-                    </form>
-                </div>
-            </div>
-        </div>
 
         <div class="row" >
             <div class="col s12 center">
@@ -124,6 +108,14 @@
     </div>
 </div>
     <script type="text/javascript" th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
-    <script type="text/javascript" th:src="@{/webjars/materializecss/0.100.2/js/materialize.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/materializecss/1.0.0/js/materialize.min.js}"></script>
+    <script type="text/javascript">
+        M.AutoInit();
+    </script>
+    <div th:if="${message}">
+        <script type="text/javascript">
+            M.toast({html: 'Erfolgreich hinzugefügt', classes: 'blue'});
+        </script>
+    </div>
 </body>
 </html>
