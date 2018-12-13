@@ -22,37 +22,41 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
-public class FileUploadController {
+public class DocumentsController {
 
     private DocumentRepository documentRepository;
 
     @Autowired
-    public FileUploadController(DocumentRepository documentRepository) {
+    public DocumentsController(DocumentRepository documentRepository) {
         this.documentRepository = documentRepository;
     }
 
     @GetMapping("/")
-    public String documentsList(Model model) throws IOException {
+    public String documentsOverview(Model model) throws IOException {
 
         List<DocumentData> documents = documentRepository.findAll().stream().map(
-            documentModel -> DocumentData.builder()
-                .id(documentModel.getId())
-                .fileName(documentModel.getFileName())
-                .downloadLink(MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-                        "downloadDocument", documentModel.getId().toString()).build().toString())
-                .entranceDate(documentModel.getEntranceDate())
-                .entrancePerson(documentModel.getEntrancePerson())
-                .approvalDate(documentModel.getApprovalDate())
-                .approvalPerson1(documentModel.getApprovalPerson1())
-                .approvalPerson2(documentModel.getApprovalPerson2())
-                .shippmentDate(documentModel.getShippmentDate())
-                .comment(documentModel.getComment())
-                .build()
+            documentModel -> getDocumentData(documentModel)
         ).collect(Collectors.toList());
 
         model.addAttribute("documents", documents);
 
-        return "uploadForm";
+        return "documentsOverview";
+    }
+
+    private DocumentData getDocumentData(DocumentModel documentModel) {
+        return DocumentData.builder()
+            .id(documentModel.getId())
+            .fileName(documentModel.getFileName())
+            .downloadLink(MvcUriComponentsBuilder.fromMethodName(DocumentsController.class,
+                    "downloadDocument", documentModel.getId().toString()).build().toString())
+            .entranceDate(documentModel.getEntranceDate())
+            .entrancePerson(documentModel.getEntrancePerson())
+            .approvalDate(documentModel.getApprovalDate())
+            .approvalPerson1(documentModel.getApprovalPerson1())
+            .approvalPerson2(documentModel.getApprovalPerson2())
+            .shippmentDate(documentModel.getShippmentDate())
+            .comment(documentModel.getComment())
+            .build();
     }
 
     @GetMapping("/files/{id:.+}")
@@ -85,8 +89,20 @@ public class FileUploadController {
         return "redirect:/";
     }
 
+    @GetMapping("/document/{id:.+}")
+    public String documentEdit(@PathVariable Long id, Model model){
+
+        Optional<DocumentModel> documentModel_ = documentRepository.findById(id);
+        if (documentModel_.isPresent()) {
+            DocumentModel documentModel = documentModel_.get();
+            model.addAttribute("documents", getDocumentData(documentModel));
+        }
+
+        return "documentEdit";
+    }
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String saveStudent(@ModelAttribute DocumentData documentData, BindingResult errors, Model model) {
+    public String saveStudent(@ModelAttribute DocumentData documentData) {
 
         Optional<DocumentModel> documentModel_ = documentRepository.findById(documentData.getId());
         if (documentModel_.isPresent()) {

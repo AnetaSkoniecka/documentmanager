@@ -77,59 +77,34 @@
                             <th>Eingegangen</th>
                             <th>Freigegeben</th>
                             <th>Schicken</th>
-                            <th>Actions</th>
                             <th>Kommentar</th>
+                            <th>Actions</th>
                         </tr>
                         </thead>
 
                         <tbody>
                         <tr th:each="document : ${documents}">
-                            <form method="POST" th:object="${document}" action="/update">
-                                <input type="hidden" id="id" name="id" th:value="*{id}"/>
-                                <td th:text="${document.id}"></td>
-                                <td th:text="${document.fileName}"></td>
+                            <td th:text="${document.id}">xx</td>
+                            <td th:text="${document.fileName}">xx</td>
+
                                 <td>
-                                    <div class="input-field inline">
-                                        <input id="entrancePerson" type="text" name="entrancePerson" th:value="*{entrancePerson}" />
-                                        <label for="entrancePerson">Name</label>
-                                    </div>
-                                    <div class="input-field inline">
-                                        <input id="entranceDate" type="text" name="entranceDate" class="datepicker" th:value="*{entranceDate}" />
-                                        <label for="entranceDate">Datum</label>
-                                    </div>
+                                    <div th:text="${document.entrancePerson}">xx</div>
+                                    <div th:text="${document.entranceDate}">xx</div>
                                 </td>
-                                <td>
-                                    <div class="input-field inline">
-                                        <input id="approvalDate" type="text" name="approvalDate" class="datepicker" th:value="*{approvalDate}" />
-                                        <label for="approvalDate">Datum</label>
-                                    </div>
-                                    <div class="input-field inline">
-                                        <input id="approvalPerson1" type="text" name="approvalPerson1" th:value="*{approvalPerson1}" />
-                                        <label for="approvalPerson1">Sachlich richtig</label>
-                                    </div>
-                                    <div class="input-field inline">
-                                        <input id="approvalPerson2" type="text" name="approvalPerson2" th:value="*{approvalPerson2}" />
-                                        <label for="approvalPerson2">Freigegeben</label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-field inline">
-                                        <input id="shippmentDate" type="text" name="shippmentDate" class="datepicker" th:value="*{shippmentDate}" />
-                                        <label for="shippmentDate">Datum</label>
-                                    </div>
-                                </td>
-                                <td><div class="input-field inline">
-                                    <input id="comment" type="text" name="comment" th:value="*{comment}" />
-                                    <label for="comment">Komemntar</label>
-                                </div></td>
-                                <input style="width: 0; height: 0; opacity: 0" type="submit" value="Save" />
-                            </form>
                             <td>
-                                <form method="POST" action="/save">
-                                    <input type="hidden" id="id" name="id" th:value="*{id}"/>
-                                    <input type="submit" value="Save" />
-                                    <button class="btn btn-flat" type="submit" name="action"><i class="material-icons">delete</i></button>
-                                </form>
+                                <div th:text="${document.approvalDate}">xx</div>
+                                <div th:text="${document.approvalPerson1}">xx</div>
+                                <div th:text="${document.approvalPerson2}">xx</div>
+                            </td>
+                            <td>
+                                <div th:text="${document.shippmentDate}">xx</div>
+                            </td>
+                            <td>
+                                <div th:text="${document.comment}">xx</div>
+                            </td>
+                            <td>
+                                <a class="btn btn-flat" th:href="@{/document/{id}(id=${document.id})}" ><i class="material-icons">edit</i></a>
+                                <a class="btn btn-flat" ><i class="material-icons">delete</i></a>
                                 <a class="btn-flat" th:href="${document.downloadLink}"><i class="material-icons">cloud_download</i></a>
                                 <!--<a th:href="${document.downloadLink}" th:text="${document.fileName}" />-->
                             </td>
@@ -149,7 +124,7 @@
     </script>
     <div th:if="${message}">
         <script type="text/javascript">
-            M.toast({html: 'Erfolgreich hinzugefügt', classes: 'blue'});
+            M.toast({html: 'Erfolgreich hinzugefügt', classes: 'green'});
         </script>
     </div>
 </body>
