@@ -2,6 +2,7 @@ package de.aleri.billsmanager;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Builder
@@ -16,16 +17,16 @@ public class DocumentData {
     private String downloadLink;
 
     /* Entrance */
-    private Date entranceDate;
+    private String entranceDate;
     private String entrancePerson;
 
     /* Approval */
-    private Date approvalDate;
+    private String approvalDate;
     private String approvalPerson1;
     private String approvalPerson2;
 
     /* Shipment */
-    private Date shippmentDate;
+    private String shippmentDate;
 
     /* Info */
     private String comment;
