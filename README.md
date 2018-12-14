@@ -5,6 +5,4 @@ Contains two sites:
 * Mainpage - to list all documents and upload new one.
 * Edit page - to maintain already uploaded files.
 
-
-![alt text](https://git.aleri.de/AnetaSkoniecka/billsmanager/blob/master/docimages/appview.PNG)
-
+![appview](/uploads/89f63f4c90c5e54f405cba7e186981a7/appview.PNG)
