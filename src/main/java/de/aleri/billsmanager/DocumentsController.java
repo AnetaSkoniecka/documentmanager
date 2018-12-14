@@ -95,7 +95,7 @@ public class DocumentsController {
         Optional<DocumentModel> documentModel_ = documentRepository.findById(id);
         if (documentModel_.isPresent()) {
             DocumentModel documentModel = documentModel_.get();
-            model.addAttribute("documents", getDocumentData(documentModel));
+            model.addAttribute("document", getDocumentData(documentModel));
         }
 
         return "documentEdit";

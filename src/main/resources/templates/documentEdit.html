@@ -46,25 +46,67 @@
     <div class="section">
 
         <div class="row" >
-            <div class="col s12 center">
-                <ul>
-                    <li th:each="document : ${documents}">
-                        <a th:href="${document.downloadLink}" th:text="${document.fileName}" />
-                        <form method="POST" th:object="${document}" action="/update">
-                            <input type="hidden" id="id" name="id" th:value="*{id}"/>
-
-                            <input type="text" id="entranceDate" name="entranceDate" th:value="*{entranceDate}" />
+            <h5 class="right" th:text="${document.fileName}"></h5>
+            <div class="col s12">
+                <form method="POST" th:object="${document}" action="/update">
+                    <input type="hidden" id="id" name="id" th:value="*{id}"/>
+                    <h6>Eingegangen</h6>
+                    <div class="row">
+                        <div class="input-field col s6">
                             <input type="text" id="entrancePerson" name="entrancePerson" th:value="*{entrancePerson}" />
-                            <input type="text" id="approvalDate" name="approvalDate" th:value="*{approvalDate}" />
+                            <label for="entrancePerson">Wer</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input type="text" id="entranceDate" name="entranceDate" th:value="*{entranceDate}" />
+                            <label for="entranceDate">Datum</label>
+                        </div>
+                    </div>
+                    <h6>Freigegeben</h6>
+                    <div class="row">
+                        <div class="input-field col s6">
                             <input type="text" id="approvalPerson1" name="approvalPerson1" th:value="*{approvalPerson1}" />
+                            <label for="approvalPerson1">Sachlich richtig</label>
+                        </div>
+                        <div class="input-field col s6">
                             <input type="text" id="approvalPerson2" name="approvalPerson2" th:value="*{approvalPerson2}" />
+                            <label for="approvalPerson2">Freigegeben</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input type="text" id="approvalDate" name="approvalDate" th:value="*{approvalDate}" />
+                            <label for="approvalDate">Datum</label>
+                        </div>
+                    </div>
+                    <h6>Schicken</h6>
+                    <div class="row">
+                        <div class="input-field col s6">
                             <input type="text" id="shippmentDate" name="shippmentDate" th:value="*{shippmentDate}" />
+                            <label for="shippmentDate">Sachlich richtig</label>
+                        </div>
+                        <div class="input-field col s6">
                             <input type="text" id="comment" name="comment" th:value="*{comment}" />
+                            <label for="comment">Kommentar</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <button class="btn blue waves-effect waves-light" type="submit" name="action">Sparen
+                                <i class="material-icons right">send</i>
+                            </button>
+                            <a class="btn-flat blue-text" th:href="${document.downloadLink}"><i class="material-icons">cloud_download</i></a>
+                        </div>
+                    </div>
 
-                            <input type="submit" value="Save" />
-                        </form>
-                    </li>
-                </ul>
+
+                    <!--<input type="text" id="entranceDate" name="entranceDate" th:value="*{entranceDate}" />-->
+                    <!--<input type="text" id="entrancePerson" name="entrancePerson" th:value="*{entrancePerson}" />-->
+                    <!--<input type="text" id="approvalDate" name="approvalDate" th:value="*{approvalDate}" />-->
+                    <!--<input type="text" id="approvalPerson1" name="approvalPerson1" th:value="*{approvalPerson1}" />-->
+                    <!--<input type="text" id="approvalPerson2" name="approvalPerson2" th:value="*{approvalPerson2}" />-->
+                    <!--<input type="text" id="shippmentDate" name="shippmentDate" th:value="*{shippmentDate}" />-->
+                    <!--<input type="text" id="comment" name="comment" th:value="*{comment}" />-->
+
+                    <input type="submit" value="Save" />
+                </form>
             </div>
         </div>
 
