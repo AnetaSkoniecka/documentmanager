@@ -17,7 +17,15 @@ Css styling: www.materializecss.com
 * Build the project
 * On the right side open "Maven Projects"
 * In the tree run bills-manager->Plugins->spring-boot->spring-boot:run
-* Open page http://localhost:8080/
+* Open page http://localhost:8080
+
+## Switch database
+Right now the application is handled by H2 database (in memory) to easy deploy the application. For production purspose database should be switched for e.g. MySql.
+
+### MySql
+* Go to file pom.xml and uncomment dependency mysql and comment dependency h2database (lines 48-59).
+* Create and start Your mysql database.
+* Put credentials in the file src/main/resources/application.properties (lines 5-9)
 
 ## Ap view:
 ![appview](/uploads/89f63f4c90c5e54f405cba7e186981a7/appview.PNG)
