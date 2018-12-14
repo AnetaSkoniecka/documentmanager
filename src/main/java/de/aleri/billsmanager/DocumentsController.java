@@ -1,6 +1,7 @@
 package de.aleri.billsmanager;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
@@ -32,12 +32,13 @@ public class DocumentsController {
     }
 
     @GetMapping("/")
-    public String documentsOverview(Model model) throws IOException {
+    public String documentsOverviewPage(Model model) throws IOException {
 
         List<DocumentData> documents = documentRepository.findAll().stream().map(
             documentModel -> getDocumentData(documentModel)
         ).collect(Collectors.toList());
 
+        Collections.reverse(documents);
         model.addAttribute("documents", documents);
 
         return "documentsOverview";
@@ -48,7 +49,7 @@ public class DocumentsController {
             .id(documentModel.getId())
             .fileName(documentModel.getFileName())
             .downloadLink(MvcUriComponentsBuilder.fromMethodName(DocumentsController.class,
-                    "downloadDocument", documentModel.getId().toString()).build().toString())
+                    "documentDownload", documentModel.getId().toString()).build().toString())
             .entranceDate(documentModel.getEntranceDate())
             .entrancePerson(documentModel.getEntrancePerson())
             .approvalDate(documentModel.getApprovalDate())
@@ -56,12 +57,17 @@ public class DocumentsController {
             .approvalPerson2(documentModel.getApprovalPerson2())
             .shippmentDate(documentModel.getShippmentDate())
             .comment(documentModel.getComment())
+            .closed(isDocumentClosed(documentModel))
             .build();
+    }
+
+    private Boolean isDocumentClosed(DocumentModel documentModel) {
+        return documentModel.getShippmentDate() != null && !documentModel.getShippmentDate().isEmpty();
     }
 
     @GetMapping("/files/{id:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> downloadDocument(@PathVariable Long id) {
+    public ResponseEntity<Resource> documentDownload(@PathVariable Long id) {
 
         Optional<DocumentModel> documentOptional = documentRepository.findById(id);
         if (documentOptional.isPresent()) {
@@ -76,8 +82,8 @@ public class DocumentsController {
     }
 
     @PostMapping("/")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes) throws Exception {
+    public String documentUpload(@RequestParam("file") MultipartFile file,
+                                 RedirectAttributes redirectAttributes) throws Exception {
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         DocumentModel documentModel = new DocumentModel(fileName, file.getContentType(), file.getBytes());
@@ -86,11 +92,12 @@ public class DocumentsController {
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "redirect:/";
+        String documentEditPageUrl = "document/" + documentModel.getId();
+        return "redirect:/" + documentEditPageUrl;
     }
 
     @GetMapping("/document/{id:.+}")
-    public String documentEdit(@PathVariable Long id, Model model){
+    public String documentEditPage(@PathVariable Long id, Model model){
 
         Optional<DocumentModel> documentModel_ = documentRepository.findById(id);
         if (documentModel_.isPresent()) {
@@ -101,8 +108,19 @@ public class DocumentsController {
         return "documentEdit";
     }
 
+    @GetMapping("/document/{id:.+}/delete")
+    public String documentDelete(@PathVariable Long id){
+
+        Optional<DocumentModel> documentModel_ = documentRepository.findById(id);
+        if (documentModel_.isPresent()) {
+            documentRepository.deleteById(id);
+        }
+
+        return "redirect:/";
+    }
+
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String saveStudent(@ModelAttribute DocumentData documentData) {
+    public String documentUpdate(@ModelAttribute DocumentData documentData) {
 
         Optional<DocumentModel> documentModel_ = documentRepository.findById(documentData.getId());
         if (documentModel_.isPresent()) {

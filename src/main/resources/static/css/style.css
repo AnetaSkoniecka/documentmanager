@@ -1,20 +1,6 @@
-h1 {
-    color: red;
-}
-
 td {
     vertical-align: top;
 }
-
-/*.upload-button {*/
-    /*opacity: 0;*/
-    /*margin: 0;*/
-    /*padding: 0;*/
-    /*position: absolute;*/
-    /*top: 0;*/
-    /*left: 0;*/
-    /*height: 100%;*/
-/*}*/
 
 input[type="file"] {
     opacity: 0;
@@ -25,5 +11,16 @@ input[type="file"] {
 }
 
 .container {
-    width: 90% !important;
+    width: 95% !important;
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.documentfinished {
+    background: lightgray;
+    opacity: 0.1;
 }

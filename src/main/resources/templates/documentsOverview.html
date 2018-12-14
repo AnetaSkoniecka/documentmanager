@@ -69,7 +69,8 @@
                 <!--</div>-->
 
                 <div>
-                    <table class="responsive-table highlight">
+                    <table class="
+                    highlight">
                         <thead>
                         <tr>
                             <th>Id</th>
@@ -83,15 +84,16 @@
                         </thead>
 
                         <tbody>
-                        <tr th:each="document : ${documents}">
+                        <tr th:class="${document.closed}? documentfinished  : documentnotfinished" th:each="document : ${documents}">
 
-                            <td th:text="${document.id}">xx</td>
-                            <td th:text="${document.fileName}">xx</td>
-
-                                <td>
-                                    <div th:text="${document.entrancePerson}">xx</div>
-                                    <div th:text="${document.entranceDate}">xx</div>
-                                </td>
+                            <td th:text="${document.id}"></td>
+                            <td>
+                                <div class="truncate" style="max-width: 150px" th:text="${document.fileName}"></div>
+                            </td>
+                            <td>
+                                <div th:text="${document.entranceDate}">xx</div>
+                                <div th:text="${document.entrancePerson}">xx</div>
+                            </td>
                             <td>
                                 <div th:text="${document.approvalDate}">xx</div>
                                 <div th:text="${document.approvalPerson1}">xx</div>
@@ -101,11 +103,11 @@
                                 <div th:text="${document.shippmentDate}">xx</div>
                             </td>
                             <td>
-                                <div th:text="${document.comment}">xx</div>
+                                <div class="truncate" style="max-width: 150px" th:text="${document.comment}">xx</div>
                             </td>
                             <td>
                                 <a class="btn btn-flat" th:href="@{/document/{id}(id=${document.id})}" ><i class="material-icons">edit</i></a>
-                                <a class="btn btn-flat" ><i class="material-icons">delete</i></a>
+                                <a class="btn btn-flat" th:href="@{/document/{id}/delete(id=${document.id})}"><i class="material-icons">delete</i></a>
                                 <a class="btn-flat" th:href="${document.downloadLink}"><i class="material-icons">cloud_download</i></a>
                                 <!--<a th:href="${document.downloadLink}" th:text="${document.fileName}" />-->
                             </td>
