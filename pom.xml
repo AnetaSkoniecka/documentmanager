@@ -20,10 +20,7 @@
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
+		<!--Backend-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -32,17 +29,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<!--<dependency>-->
-			<!--<groupId>mysql</groupId>-->
-			<!--<artifactId>mysql-connector-java</artifactId>-->
-			<!--<scope>runtime</scope>-->
-		<!--</dependency>-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -54,6 +40,25 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!--Database-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<!--When You want to switch to Mysql then uncomment this
+			dependency and comment com.h2database-->
+		<!--<dependency>-->
+			<!--<groupId>mysql</groupId>-->
+			<!--<artifactId>mysql-connector-java</artifactId>-->
+			<!--<scope>runtime</scope>-->
+		<!--</dependency>-->
+
+		<!--Frontend-->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>materializecss</artifactId>
@@ -65,11 +70,6 @@
 			<version>3.1.1</version>
 		</dependency>
 
-		<!--<dependency>-->
-			<!--<groupId>org.webjars</groupId>-->
-			<!--<artifactId>bootstrap</artifactId>-->
-			<!--<version>3.1.0</version>-->
-		<!--</dependency>-->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>webjars-locator</artifactId>
