@@ -7,8 +7,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/materializecss/1.0.0/css/materialize.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
-    <!--<link rel='stylesheet' href='/webjars/bootstrap/3.1.0/css/bootstrap.min.css'>-->
-
 </head>
 <body>
 
@@ -17,7 +15,7 @@
         <i class="large material-icons">add</i>
     </a>
     <ul>
-        <li><a class="btn-floating green"><i class="material-icons">camera</i></a></li>
+        <!--<li><a class="btn-floating green"><i class="material-icons">camera</i></a></li>-->
         <li>
             <form id="fileUploadForm" method="POST" enctype="multipart/form-data" action="/">
                 <label for="fileUploadInput" class="btn-floating orange">
@@ -35,7 +33,6 @@
             <a href="/" style="text-align: center" class="brand-logo">Aleri Dokumenten Manager</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 <li><a href="/">Dokumenten</a></li>
-
             </ul>
         </div>
 
@@ -87,7 +84,6 @@
                                 <a class="btn btn-flat" th:href="@{/document/{id}(id=${document.id})}" ><i class="material-icons">edit</i></a>
                                 <a class="btn btn-flat" th:href="@{/document/{id}/delete(id=${document.id})}"><i class="material-icons">delete</i></a>
                                 <a class="btn-flat" th:href="${document.downloadLink}"><i class="material-icons">cloud_download</i></a>
-                                <!--<a th:href="${document.downloadLink}" th:text="${document.fileName}" />-->
                             </td>
                         </tr>
                         </tbody>
