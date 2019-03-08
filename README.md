@@ -8,7 +8,6 @@ Contains two sites:
 Css styling: www.materializecss.com
 
 ## Instalation
-* git clone git@git.aleri.de:AnetaSkoniecka/billsmanager.git folder-name
 * IntelliJ -> Import Project -> Select folder-name -> Pick "Import project from external model" and Maven -> Next
 * In the next window pick "Import Maven project automaticly" -> Next
 * Should be already selected "de.aleri:bills-manager...." -> Next
